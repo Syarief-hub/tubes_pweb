@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Customer\MenuController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('customer.menu');
 });
+
+Route::get('/menu', [MenuController::class, 'index'])->name('customer.menu');
