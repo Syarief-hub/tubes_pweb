@@ -43,7 +43,7 @@
         </nav>
         <div class="hidden md:flex space-x-4">
             <a class="text-indigo-600 bg-indigo-100 px-5 py-2 rounded-full text-sm font-medium hover:bg-indigo-200 transition"
-                href="#">
+                href="{{ route('login') }}">
                 Login
             </a>
             <a class="bg-indigo-600 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-indigo-700 transition"
