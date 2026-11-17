@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Menu extends Model
 {
+    protected $casts = ['is_available' => 'boolean'];
+    
     protected $table = 'menus';
 
     protected $fillable = [
@@ -14,10 +17,6 @@ class Menu extends Model
         'harga',
         'gambar',
         'is_available',
-    ];
-
-    protected $casts = [
-        'is_available' => 'boolean',
     ];
 
     // Relasi: Menu dimiliki oleh satu kategori

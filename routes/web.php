@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KasirController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Customer\MenuController;
@@ -28,4 +29,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('menus', AdminMenuController::class);
     Route::patch('menus/{menu}/toggle-stock', [AdminMenuController::class, 'toggleStock'])
         ->name('menus.toggleStock');
+});
+
+// Modul Kasir (Anggota 2). Middleware role ditambah Anggota 4.
+Route::prefix('kasir')->name('kasir.')->controller(KasirController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::patch('/{pesanan}/konfirmasi', 'konfirmasi')->name('konfirmasi');
+    Route::patch('/{pesanan}/tolak', 'tolak')->name('tolak');
+    Route::get('/{pesanan}/edit', 'edit')->name('edit');
+    Route::delete('/{pesanan}/item/{detail}', 'hapusItem')->name('hapus-item');
+    Route::post('/{pesanan}/item', 'tambahItem')->name('tambah-item');
+    Route::get('/{pesanan}/hitung', 'hitung')->name('hitung');
 });
