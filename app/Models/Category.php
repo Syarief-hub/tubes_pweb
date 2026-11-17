@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    protected $fillable = ['nama_kategori'];
+    protected $table = 'categories';
 
-    public function menus(): HasMany
+    protected $fillable = [
+        'nama_kategori',
+    ];
+
+    // Relasi: Kategori memiliki banyak menu
+    public function menus()
     {
         return $this->hasMany(Menu::class);
     }

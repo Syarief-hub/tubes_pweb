@@ -7,11 +7,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Menu extends Model
 {
-    protected $fillable = ['category_id', 'nama_menu', 'harga', 'gambar', 'is_available'];
-
     protected $casts = ['is_available' => 'boolean'];
+    
+    protected $table = 'menus';
 
-    public function category(): BelongsTo
+    protected $fillable = [
+        'category_id',
+        'nama_menu',
+        'harga',
+        'gambar',
+        'is_available',
+    ];
+
+    // Relasi: Menu dimiliki oleh satu kategori
+    public function category()
     {
         return $this->belongsTo(Category::class);
     }
