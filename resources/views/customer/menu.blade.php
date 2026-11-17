@@ -1,9 +1,26 @@
 @extends('customer.layouts')
 
-@section('title', 'Katalog Menu - Resto QR')
+@section('title', 'Katalog Menu - NafilCafe & Resto')
 @section('subtitle', 'Katalog Menu')
 
 @section('content')
+
+    {{-- Notifikasi berhasil --}}
+    @if (session('success'))
+        <div class="mx-4 mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700" role="status">
+            {{ session('success') }}
+
+        </div>
+    @endif
+
+    {{-- Notifikasi gagal --}}
+    @if (session('error'))
+        <div class="mx-4 mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+            {{ session('error') }}
+
+        </div>
+    @endif
+
 
     {{-- BANNER SELAMAT DATANG --}}
     <section class="px-4 pt-4">
@@ -17,7 +34,7 @@
                 </div>
 
                 <h2 class="text-xl font-bold leading-tight">
-                    Selamat Datang di Resto QR!
+                    Selamat Datang di NafilCafe & Resto!
                 </h2>
 
                 <p class="mt-2 max-w-[240px] text-sm leading-relaxed text-orange-50">
@@ -31,7 +48,6 @@
         </div>
     </section>
 
-
     {{-- PENCARIAN MENU --}}
     <section class="px-4 pt-4">
         <form action="{{ route('customer.menu') }}" method="GET">
@@ -44,7 +60,6 @@
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
                     stroke="currentColor" class="h-5 w-5 shrink-0 text-[#76594e]">
-
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-4.35-4.35m1.35-5.4a6.75 6.75 0 1 1-13.5 0 6.75 6.75 0 0 1 13.5 0Z" />
                 </svg>
@@ -60,7 +75,6 @@
         </form>
     </section>
 
-
     {{-- FILTER KATEGORI --}}
     <section class="pt-4">
         <div class="flex gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -72,7 +86,7 @@
                     ? 'border-[#a93800] bg-[#a93800] text-white shadow-md'
                     : 'border-[#f1e4de] bg-white text-[#654c41]' }}">
 
-                Semua ({{ $totalMenus }})
+                Semua ({{ $totalMenu }})
             </a>
 
             {{-- Daftar Kategori --}}
@@ -93,7 +107,6 @@
 
         </div>
     </section>
-
 
     {{-- DAFTAR MENU --}}
     <section class="px-4 pt-3 pb-6">
@@ -116,10 +129,11 @@
 
         </div>
 
-
         {{-- Jika Menu Tersedia --}}
         @forelse($menus as $menu)
-            <div class="mb-3 flex min-h-[140px] gap-3 overflow-hidden rounded-2xl border border-[#f5ece7] bg-white p-3 shadow-sm">
+            <div
+                class="mb-3 flex min-h-[140px] gap-3 overflow-hidden rounded-2xl border border-[#f5ece7] bg-white p-3 shadow-sm">
+
                 {{-- INFORMASI MENU --}}
                 <div class="flex min-w-0 flex-1 flex-col">
                     {{-- Status Ketersediaan --}}
@@ -129,53 +143,48 @@
                         </span>
                     @endif
 
-
                     {{-- Nama Menu --}}
                     <h3 class="line-clamp-2 text-base font-bold leading-snug text-[#29211e]">
                         {{ $menu->nama_menu }}
                     </h3>
-
 
                     {{-- Kategori --}}
                     <p class="mt-1 text-xs text-[#80675b]">
                         {{ $menu->category?->nama_kategori ?? 'Tanpa Kategori' }}
                     </p>
 
-
                     {{-- Harga dan Tombol --}}
                     <div class="mt-auto flex items-center justify-between gap-2 pt-3">
-
                         <span class="whitespace-nowrap text-base font-bold text-[#bd4000]">
                             Rp {{ number_format($menu->harga, 0, ',', '.') }}
                         </span>
 
-
                         @if ($menu->is_available)
-                            <button type="button" data-menu-id="{{ $menu->id }}"
-                                class="flex shrink-0 items-center gap-1 rounded-full bg-[#ae3b00] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#913100]">
-
-                                <span class="text-base leading-none">+</span>
-                                Tambah
-                            </button>
+                            <form action="{{ route('customer.cart.add') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="menu_id" value="{{ $menu->id }}">
+                                <button type="submit"
+                                    class="flex shrink-0 items-center gap-1 rounded-full bg-[#ae3b00] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#913100]">
+                                    <span class="text-base leading-none">+</span>
+                                    Tambah
+                                </button>
+                            </form>
                         @else
                             <button type="button" disabled
                                 class="shrink-0 rounded-full bg-gray-100 px-3 py-2 text-xs font-semibold text-gray-400">
-
                                 Habis
                             </button>
                         @endif
 
                     </div>
-
                 </div>
-
 
                 {{-- GAMBAR MENU --}}
                 <div class="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-[#f5e9e2]">
 
                     @if ($menu->gambar)
-                        <img src="{{ Storage::disk('public')->url($menu->gambar) }}"
-                            alt="{{ $menu->nama_menu }}" loading="lazy" class="h-full w-full object-cover">
+                        <img src="{{ Storage::disk('public')->url($menu->gambar) }}" alt="{{ $menu->nama_menu }}"
+                            loading="lazy" class="h-full w-full object-cover">
                     @else
                         <div class="flex h-full w-full flex-col items-center justify-center text-[#b99b8c]">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.4"
@@ -190,14 +199,12 @@
                     @endif
 
                 </div>
-
             </div>
 
         @empty
 
             {{-- Jika Tidak Ada Menu --}}
             <div class="rounded-2xl border border-dashed border-[#e7d6cc] bg-white px-5 py-12 text-center">
-
                 <div class="mb-3 text-4xl">🍽️</div>
 
                 <h3 class="font-semibold text-[#382a25]">
@@ -208,34 +215,27 @@
                     Coba gunakan kata kunci atau kategori lainnya.
                 </p>
 
-                <a href="{{ route('customer.menu') }}" class="mt-4 inline-block rounded-full bg-[#ae3b00] px-5 py-2 text-sm font-semibold text-white">
+                <a href="{{ route('customer.menu') }}"
+                    class="mt-4 inline-block rounded-full bg-[#ae3b00] px-5 py-2 text-sm font-semibold text-white">
                     Lihat Semua Menu
                 </a>
-
             </div>
         @endforelse
-
     </section>
 
 
     {{-- RINGKASAN KERANJANG SEMENTARA --}}
     <div class="fixed inset-x-0 bottom-[72px] z-30 mx-auto w-full max-w-[430px] px-4 pb-2">
-
         <a href="{{ url('/keranjang') }}"
             class="flex items-center justify-between rounded-full bg-[#302a26] px-3 py-2 text-white shadow-xl">
 
             <div class="flex items-center gap-3">
-
                 <div class="relative flex h-10 w-10 items-center justify-center rounded-full bg-[#e84b00]">
-
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
                         stroke="currentColor" class="h-5 w-5">
-
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M6 7.5h12l1 13H5l1-13Zm3 0V6a3 3 0 0 1 6 0v1.5" />
-
                     </svg>
-
                 </div>
 
                 <div>
@@ -254,9 +254,7 @@
                 Lihat Keranjang
                 <span class="text-base">→</span>
             </span>
-
         </a>
-
     </div>
 
 @endsection

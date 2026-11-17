@@ -20,7 +20,7 @@ class Menu extends Model
         'is_available' => 'boolean',
     ];
 
-    // Relasi: Menu dimiliki oleh satu kategori
+    // Relasi: 1 Menu dimiliki oleh satu kategori
     public function category()
     {
         return $this->belongsTo(Category::class);

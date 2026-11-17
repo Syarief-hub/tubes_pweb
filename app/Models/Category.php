@@ -12,7 +12,7 @@ class Category extends Model
         'nama_kategori',
     ];
 
-    // Relasi: Kategori memiliki banyak menu
+    // Relasi: 1 Kategori memiliki banyak menu
     public function menus()
     {
         return $this->hasMany(Menu::class);

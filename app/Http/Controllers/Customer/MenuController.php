@@ -23,7 +23,6 @@ class MenuController extends Controller
 
         // Mengambil data menu beserta relasi kategorinya
         $menus = Menu::with('category')
-
             // Filter berdasarkan kata kunci pencarian
             ->when($request->filled('search'), function ($query) use ($request) {
                 $keyword = trim($request->search);
@@ -49,12 +48,12 @@ class MenuController extends Controller
             ->get();
 
         // Menghitung seluruh menu
-        $totalMenus = Menu::count();
+        $totalMenu = Menu::count();
 
         return view('customer.menu', compact(
             'categories',
             'menus',
-            'totalMenus'
+            'totalMenu'
         ));
     }
 }
