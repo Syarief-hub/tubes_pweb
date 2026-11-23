@@ -50,7 +50,7 @@
             <div class="grid h-[72px] grid-cols-3">
 
                 {{-- Menu --}}
-                <a href="{{ route('customer.menu') }}"
+                <a href="{{ route('customer.menu', ['no_meja' => session('no_meja')]) }}"
                     class="flex flex-col items-center justify-center gap-1
                     {{ request()->routeIs('customer.menu') ? 'text-[#b33d00]' : 'text-[#76594e]' }}">
 

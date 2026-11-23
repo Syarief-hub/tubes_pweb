@@ -34,10 +34,22 @@ class CartController extends Controller
         // Menghitung total harga
         $totalPrice = $cartItems->sum('subtotal');
 
+        //Pajak Restauran (10% dari total harga)
+        $pajak = $totalPrice * 0.1;
+
+        // Menghitung total bayar (total harga + pajak)
+        $totalBayar = $totalPrice + $pajak;
+
+        // Mengambil catatan dapur dari session
+        $cartNote = session()->get('cart_note', '');
+
         return view('customer.keranjang', compact(
             'cartItems',
             'totalItems',
-            'totalPrice'
+            'totalPrice',
+            'pajak',
+            'totalBayar',
+            'cartNote'
         ));
     }
 
@@ -78,12 +90,28 @@ class CartController extends Controller
 
         return back()->with('success', 'Menu berhasil ditambahkan ke keranjang');
     }
+
+    public function saveNote(Request $request)
+    {
+        //Validasi catatan dapur
+        $request->validate([
+            'catatan_dapur' => 'nullable|string|max:500',
+        ]);
+
+        //Simpan catatan dapur ke session
+        session()->put(
+        'cart_note',
+        trim((string) $request->input('catatan_dapur', ''))
+    );
+
+        return back()->with('success', 'Catatan dapur berhasil disimpan');
+    }
     
 
     public function update(Request $request, $menuId)
     {
         //Validasi jumlah menu
-        $request->validated([
+        $request->validate([
             'qty' => 'required|integer|min:1'
         ]);
 
@@ -98,6 +126,7 @@ class CartController extends Controller
         //Ambil menu dari Database
         $menu = Menu::findOrFail($menuId);
 
+        //Ambil kuantitas baru dan kuantitas saat ini
         $newQty = (int) $request->qty;
         $currentQty = $cart[$menuId]['qty'];
 
@@ -106,12 +135,40 @@ class CartController extends Controller
             return back()->with('error', 'Menu sedang tidak tersedia.');
         }
 
-        // Memperbarui kuantitas
+        // Memperbarui jumlah di session 
         $cart[$menuId]['qty'] = $newQty;
 
         // Simpan Session
         session()->put('cart', $cart);
 
         return back()->with('success', 'Jumlah menu berhasil diperbarui');
+    }
+
+
+    public function remove($menuId)
+    {
+        //Ambil data keranjang dari session
+        $cart = session()->get('cart', []);
+
+        //Periksa apakah menu ada di keranjang
+        if (!isset($cart[$menuId])) {
+            return back()->with('error', 'Menu tidak ditemukan di keranjang');
+        }
+
+        //Hapus menu dari keranjang
+        unset($cart[$menuId]);
+
+        //Simpan Session
+        session()->put('cart', $cart);
+
+        return back()->with('success', 'Menu berhasil dihapus dari keranjang');
+    }
+
+    public function clear()
+    {
+        //Hapus semua item dari keranjang
+        session()->forget('cart');
+
+        return back()->with('success', 'Keranjang berhasil dikosongkan');
     }
 }

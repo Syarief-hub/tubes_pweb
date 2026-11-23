@@ -30,7 +30,7 @@
             <div class="relative z-10">
                 <div class="mb-2 flex items-center gap-2 text-xs font-medium tracking-wider">
                     <span>♨</span>
-                    <span>MEJA {{ session('no_meja', '05') }} • SANTAP DI TEMPAT</span>
+                    <span>MEJA {{ session('no_meja', 'BUG') }} • SANTAP DI TEMPAT</span>
                 </div>
 
                 <h2 class="text-xl font-bold leading-tight">
@@ -50,7 +50,7 @@
 
     {{-- PENCARIAN MENU --}}
     <section class="px-4 pt-4">
-        <form action="{{ route('customer.menu') }}" method="GET">
+        <form action="{{ route('customer.menu', ['no_meja' => session('no_meja')]) }}" method="GET">
 
             @if (request('category_id'))
                 <input type="hidden" name="category_id" value="{{ request('category_id') }}">
@@ -80,7 +80,7 @@
         <div class="flex gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 
             {{-- Semua Kategori --}}
-            <a href="{{ route('customer.menu', ['search' => request('search')]) }}"
+            <a href="{{ route('customer.menu', ['no_meja' => session('no_meja'), 'search' => request('search')]) }}"
                 class="flex shrink-0 items-center gap-1 rounded-full border px-4 py-2 text-xs font-semibold transition
                 {{ !request('category_id')
                     ? 'border-[#a93800] bg-[#a93800] text-white shadow-md'
@@ -92,6 +92,7 @@
             {{-- Daftar Kategori --}}
             @foreach ($categories as $category)
                 <a href="{{ route('customer.menu', [
+                    'no_meja' => session('no_meja'),
                     'category_id' => $category->id,
                     'search' => request('search'),
                 ]) }}"
@@ -215,7 +216,7 @@
                     Coba gunakan kata kunci atau kategori lainnya.
                 </p>
 
-                <a href="{{ route('customer.menu') }}"
+                <a href="{{ route('customer.menu', ['no_meja' => session('no_meja')]) }}"
                     class="mt-4 inline-block rounded-full bg-[#ae3b00] px-5 py-2 text-sm font-semibold text-white">
                     Lihat Semua Menu
                 </a>
@@ -226,7 +227,7 @@
 
     {{-- RINGKASAN KERANJANG SEMENTARA --}}
     <div class="fixed inset-x-0 bottom-[72px] z-30 mx-auto w-full max-w-[430px] px-4 pb-2">
-        <a href="{{ url('/keranjang') }}"
+        <a href="{{ route('customer.cart') }}"
             class="flex items-center justify-between rounded-full bg-[#302a26] px-3 py-2 text-white shadow-xl">
 
             <div class="flex items-center gap-3">
@@ -240,11 +241,11 @@
 
                 <div>
                     <p class="text-[10px] text-gray-300">
-                        0 Item dalam Pesanan
+                        {{ $cartCount }} Item dalam Pesanan
                     </p>
 
                     <p class="text-base font-bold">
-                        Rp 0
+                        Rp {{ number_format($totalPrice, 0, ',', '.') }}
                     </p>
                 </div>
 
