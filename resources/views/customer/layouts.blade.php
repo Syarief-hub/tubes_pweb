@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>@yield('title', 'Resto QR')</title>
-
+    <title>@yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -24,7 +22,7 @@
                 <div class="flex-1 text-center">
                     <div class="flex items-center justify-center gap-2">
                         <h1 class="text-xl font-semibold tracking-tight">
-                            Resto QR
+                            NafilCafe & Resto
                         </h1>
 
                         <span class="rounded-full bg-[#ffdfcf] px-2 py-1 text-[10px] font-semibold text-[#913500]">
@@ -33,36 +31,8 @@
                     </div>
 
                     <p class="text-[11px] text-[#76594e]">
-                        @yield('subtitle', 'Katalog Menu')
+                        @yield('subtitle')
                     </p>
-                </div>
-
-                {{-- Tombol notifikasi dan profil --}}
-                <div class="absolute right-4 flex items-center gap-3">
-
-                    <button type="button" class="flex h-9 w-9 items-center justify-center text-[#624b40]"
-                        aria-label="Notifikasi">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7"
-                            stroke="currentColor" class="h-6 w-6">
-
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M14.25 18.75a2.25 2.25 0 0 1-4.5 0m9-2.25H5.25l1.5-1.5V10.5a5.25 5.25 0 0 1 10.5 0V15l1.5 1.5Z" />
-                        </svg>
-                    </button>
-
-                    <button type="button"
-                        class="flex h-9 w-9 items-center justify-center rounded-full bg-[#a93800] text-white"
-                        aria-label="Profil">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
-                            stroke="currentColor" class="h-5 w-5">
-
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.1a7.5 7.5 0 0 1 15 0A17.9 17.9 0 0 1 12 21.75c-2.7 0-5.26-.6-7.5-1.65Z" />
-                        </svg>
-                    </button>
-
                 </div>
             </div>
         </header>
@@ -70,9 +40,7 @@
 
         {{-- KONTEN HALAMAN --}}
         <main class="min-h-screen pb-32">
-
             @yield('content')
-
         </main>
 
 
@@ -82,7 +50,7 @@
             <div class="grid h-[72px] grid-cols-3">
 
                 {{-- Menu --}}
-                <a href="{{ route('customer.menu') }}"
+                <a href="{{ route('customer.menu', ['no_meja' => session('no_meja')]) }}"
                     class="flex flex-col items-center justify-center gap-1
                     {{ request()->routeIs('customer.menu') ? 'text-[#b33d00]' : 'text-[#76594e]' }}">
 
@@ -98,8 +66,9 @@
 
 
                 {{-- Keranjang --}}
-                <a href="{{ url('/keranjang') }}"
-                    class="flex flex-col items-center justify-center gap-1 text-[#76594e]">
+                <a href="{{ route('customer.cart') }}"
+                    class="flex flex-col items-center justify-center gap-1  
+                    {{ request()->routeIs('customer.cart') ? 'text-[#b33d00]' : 'text-[#76594e]' }}">
 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
                         stroke="currentColor" class="h-6 w-6">
@@ -124,10 +93,8 @@
 
                     <span class="text-[11px] font-medium">Pesanan</span>
                 </a>
-
             </div>
         </nav>
-
     </div>
 
 </body>

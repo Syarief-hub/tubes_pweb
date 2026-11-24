@@ -18,7 +18,8 @@ class Menu extends Model
         'gambar',
         'is_available',
     ];
-
+  
+    // Relasi: 1 Menu dimiliki oleh satu kategori
     // Relasi: Menu dimiliki oleh satu kategori
     public function category()
     {
