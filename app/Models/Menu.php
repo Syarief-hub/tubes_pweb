@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Menu extends Model
 {
+    protected $casts = ['is_available' => 'boolean'];
+    
     protected $table = 'menus';
 
     protected $fillable = [
@@ -15,12 +18,9 @@ class Menu extends Model
         'gambar',
         'is_available',
     ];
-
-    protected $casts = [
-        'is_available' => 'boolean',
-    ];
-
+  
     // Relasi: 1 Menu dimiliki oleh satu kategori
+    // Relasi: Menu dimiliki oleh satu kategori
     public function category()
     {
         return $this->belongsTo(Category::class);

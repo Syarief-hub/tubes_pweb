@@ -6,4 +6,10 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Palet cafe */
+    --color-almond: #f2ede7;
+    --color-chestnut: #64120c;
+    --color-caramel: #ab7843;
+    --color-espresso: #552919;
 }
