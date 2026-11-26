@@ -1,36 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Kelola Menu</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-[#f2ede7] text-[#552919] antialiased">
+@extends('layouts.admin')
 
-    <!-- Navigasi Atas Admin -->
-    <nav class="bg-[#552919] text-[#f2ede7] shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
-            <span class="font-bold tracking-wide text-lg">Admin Restoran</span>
+@section('title', 'Judul halaman')
 
-            <div class="flex items-center gap-3 text-sm font-medium">
-                <a href="{{ route('categories.index') }}"
-                    class="px-3 py-1.5 rounded-md hover:bg-[#ab7843]/30 transition">
-                    Kelola Kategori
-                </a>
-
-                <a href="{{ route('menus.index') }}"
-                    class="px-3 py-1.5 rounded-md bg-[#64120c] text-[#f2ede7]">
-                    Kelola Menu
-                </a>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="px-3 py-1.5 rounded-md border border-[#f2ede7]/40 hover:bg-white/10 transition">Keluar</button>
-                </form>
-            </div>
-        </div>
-    </nav>
+@section('content')
 
     <div class="max-w-6xl mx-auto py-10 px-4">
         <!-- Header & Tombol Tambah -->
@@ -129,5 +101,4 @@
         </div>
     </div>
 
-</body>
-</html>
+@endsection

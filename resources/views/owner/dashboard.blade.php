@@ -12,45 +12,7 @@
 </head>
 <body class="min-h-screen bg-[#f2ede7] text-[#552919] antialiased">
     <div class="min-h-screen md:flex">
-        <aside class="hidden w-64 flex-col bg-[#552919] text-white md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:overflow-y-auto">
-            <div class="border-b border-white/10 px-6 py-7">
-                <div class="flex items-center gap-3">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-[#f2ede7] text-lg font-bold text-white">
-                        <img src="{{ asset('img/Nafil Cafe & Resto Logo.png') }}" alt="Nafil" class="flex h-10 w-13">
-                    </div>
-                    <div>
-                        <p class="font-bold">Nafil Cafe & resto</p>
-                        <p class="text-xs text-white/60">Owner dashboard</p>
-                    </div>
-                </div>
-            </div>
-
-            <nav class="flex-1 space-y-1 px-4 py-6">
-                <a href="#ringkasan"
-                   class="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-3 text-sm font-semibold text-white">
-                    <span class="material-symbols-outlined text-xl" aria-hidden="true">dashboard</span>
-                    Ringkasan
-                </a>
-
-                <a href="#transaksi"
-                   class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
-                    <span class="material-symbols-outlined text-xl" aria-hidden="true">receipt_long</span>
-                    Riwayat transaksi
-                </a>
-            </nav>
-
-            <div class="border-t border-white/10 p-4">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                            class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
-                        <span class="material-symbols-outlined text-xl" aria-hidden="true">logout</span>
-                        Keluar
-                    </button>
-                </form>
-            </div>
-        </aside>
-
+        <x-app-sidebar />
         <main class="min-w-0 flex-1 md:ml-64">
             <header class="flex items-center justify-between border-b border-[#ab7843]/20 bg-white px-5 py-4 sm:px-8">
                 <div>
@@ -62,15 +24,6 @@
                     <span class="hidden rounded-full bg-[#f2ede7] px-3 py-1.5 text-xs font-semibold text-[#64120c] sm:inline-flex">
                         OWNER
                     </span>
-
-                    <form method="POST" action="{{ route('logout') }}" class="md:hidden">
-                        @csrf
-                        <button type="submit"
-                                class="flex items-center gap-1.5 rounded-lg border border-[#ab7843]/30 px-3 py-2 text-sm font-medium text-[#552919]">
-                            <span class="material-symbols-outlined text-lg" aria-hidden="true">logout</span>
-                            Keluar
-                        </button>
-                    </form>
                 </div>
             </header>
 

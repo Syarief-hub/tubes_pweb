@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Kelola Kategori</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-[#f2ede7] text-[#552919] antialiased">
+@extends('layouts.admin')
+
+@section('title', 'Judul halaman')
+
+@section('content')
 
     <div class="max-w-4xl mx-auto py-10 px-4">
         <!-- Header & Tombol Tambah -->
@@ -70,5 +66,4 @@
         </div>
     </div>
 
-</body>
-</html>
+@endsection
